@@ -4,11 +4,11 @@ Guest ordering and apartment booking platform for a short-term rental in Dharan,
 
 **Stack:** React 18 + Vite, Node.js + Express, PostgreSQL 16, Nginx, Docker Compose
 
-## Quick Start
+## Quick Start (Docker)
 
 ```bash
 git clone <repo>
-cd dharan-stays
+cd Dharan-Stay
 cp .env.example .env
 # Edit .env with your values
 docker-compose up --build
@@ -20,6 +20,7 @@ docker-compose up --build
   - Email: `admin@dharanstays.com`
   - Password: `admin123`
 - **Database:** localhost:5432
+
 
 ## Features
 
