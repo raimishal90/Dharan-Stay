@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dharan_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./postgres/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dharan_net
+
+  api:
+    build: ./backend
+    container_name: dharan_api
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      PORT: 4000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_WA_FROM: ${TWILIO_WA_FROM}
+      HOST_WA_NUMBER: ${HOST_WA_NUMBER}
+      ESEWA_MERCHANT_ID: ${ESEWA_MERCHANT_ID}
+      KHALTI_SECRET_KEY: ${KHALTI_SECRET_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - dharan_net
+
+  frontend:
+    build: ./frontend
+    container_name: dharan_frontend
+    environment:
+      VITE_API_URL: ${VITE_API_URL}
+    depends_on:
+      - api
+    networks:
+      - dharan_net
+
+  nginx:
+    image: nginx:alpine
+    container_name: dharan_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+      - frontend
+    networks:
+      - dharan_net
+
+volumes:
+  postgres_data:
+
+networks:
+  dharan_net:
+    driver: bridge
