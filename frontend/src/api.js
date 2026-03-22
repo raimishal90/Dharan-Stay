@@ -48,5 +48,11 @@ export const adminUpdateBooking = (id, status) =>
 export const adminUpdateProduct = (id, data) =>
   api.patch(`/api/products/${id}`, data, { headers: authHeader() }).then(r => r.data);
 
+export const adminCreateProduct = (data) =>
+  api.post('/api/products', data, { headers: authHeader() }).then(r => r.data);
+
+export const adminDeleteProduct = (id) =>
+  api.delete(`/api/products/${id}`, { headers: authHeader() }).then(r => r.data);
+
 export const adminGetAllProducts = () =>
   api.get('/api/products/all', { headers: authHeader() }).then(r => r.data);

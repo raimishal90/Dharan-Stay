@@ -5,3 +5,53 @@
 html {
   scroll-behavior: smooth;
 }
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background-color: #2B7A3B;
+    color: white;
+  }
+
+  input, select, textarea {
+    @apply outline-none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    @apply ring-2 ring-primary/20 border-primary;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white font-semibold px-6 py-3 rounded-lg
+           hover:bg-primary-600 active:scale-[0.98] transition-all duration-150;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-900 text-white font-semibold px-6 py-3 rounded-lg
+           hover:bg-gray-800 active:scale-[0.98] transition-all duration-150;
+  }
+
+  .btn-outline {
+    @apply border border-gray-300 text-gray-700 font-medium px-6 py-3 rounded-lg
+           hover:border-gray-900 hover:bg-gray-50 active:scale-[0.98] transition-all duration-150;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-card
+           hover:shadow-card-hover transition-shadow duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900
+           placeholder:text-gray-400 transition-all duration-150;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+}

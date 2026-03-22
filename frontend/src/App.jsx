@@ -10,7 +10,7 @@ import Admin from './pages/Admin';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="min-h-screen bg-white">
       <Routes>
         <Route path="/admin" element={<Admin />} />
         <Route

@@ -11,7 +11,7 @@ INSERT INTO settings (key, value) VALUES
 
 -- Admin user (password: admin123)
 INSERT INTO admin_users (email, password_hash) VALUES
-  ('admin@dharanstays.com', '$2b$10$ol7iVbMXa7S7ixC8yZobaOgRPcL99VttkIIV6IcbYow2cns3iUyrO');
+  ('admin@dharanstays.com', '$2a$10$MVnnnwy3wizsYT3nFeKDr.ezTIcljEmiqL70mIMNFR7VSq1Rcwr8.');
 
 -- ============================================================
 -- PRODUCTS — Staples (15)
